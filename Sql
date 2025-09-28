@@ -1,0 +1,54 @@
+-- Create Database
+CREATE DATABASE SalesDB;
+USE SalesDB;
+
+-- Create Table
+CREATE TABLE Sales (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    product VARCHAR(50),
+    category VARCHAR(50),
+    quantity INT,
+    price DECIMAL(10,2),
+    sale_date DATE
+);
+
+-- Insert Sample Data
+INSERT INTO Sales (product, category, quantity, price, sale_date) VALUES
+('Laptop', 'Electronics', 3, 50000, '2025-09-01'),
+('Mouse', 'Electronics', 10, 500, '2025-09-01'),
+('Chair', 'Furniture', 5, 2000, '2025-09-02'),
+('Table', 'Furniture', 2, 7000, '2025-09-03'),
+('Headphones', 'Electronics', 4, 2000, '2025-09-04'),
+('Sofa', 'Furniture', 1, 15000, '2025-09-05'),
+('Keyboard', 'Electronics', 6, 1000, '2025-09-06'),
+('Cupboard', 'Furniture', 3, 12000, '2025-09-07');
+
+-- ==============================
+-- QUERIES
+-- ==============================
+
+-- 1. Total Sales per Category
+SELECT category, SUM(quantity * price) AS total_sales
+FROM Sales
+GROUP BY category;
+
+-- 2. Number of Products Sold per Category
+SELECT category, COUNT(*) AS total_products
+FROM Sales
+GROUP BY category;
+
+-- 3. Average Price of Items per Category
+SELECT category, AVG(price) AS avg_price
+FROM Sales
+GROUP BY category;
+
+-- 4. Total Quantity Sold per Product (within Category)
+SELECT category, product, SUM(quantity) AS total_quantity
+FROM Sales
+GROUP BY category, product;
+
+-- 5. Categories with Sales Above 50,000 (Filter with HAVING)
+SELECT category, SUM(quantity * price) AS total_sales
+FROM Sales
+GROUP BY category
+HAVING SUM(quantity * price) > 50000;
